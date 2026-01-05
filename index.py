@@ -4,29 +4,12 @@ print('bus app')
 
 
 
-with open('mobile_products.csv', 'r') as file:
-    csvFile = csv.DictReader(file)
+
 
 # except FileNotFoundError:
 #    print(f"File is not found")
 
-def buyTickets():
-    global categoryList
-    global categoryDescriptionList
-    # categoryList = []
-    # global categoryObjectList
-    code = 0
-
-
-    for lines in csvFile:
-        if lines['category_title'] not in categoryList:
-            categoryList.append(lines['category_title'])
-            categoryDescriptionList.append(lines['category_description'])
-            # thisCat = category(code, lines['category_title'], lines['category_description'])
-            # categoryObjectList.append(thisCat)
-            # code += 1
-
-    chooseCategory()
+# def buyTickets():
 
 
 
@@ -36,10 +19,10 @@ def chooseCategory():
     terminateLoop = True
 
     for data in categoryList:
-        print(i + '.', data)
+        print(str(i) + '.', str(data))
         i += 1
     for data in categoryDescriptionList:
-        print(i + '.', data)
+        print(str(i) + '.', str(data))
         i += 1
 
     #error handling
@@ -79,5 +62,24 @@ def confirmChoice():
                 chooseCategory()
 
 
-buyTickets()
+with open('mobile_products.csv', 'r') as file:
+    csvFile = csv.DictReader(file)
+    global categoryList
+    global categoryDescriptionList
+    categoryList = []
+    categoryDescriptionList = []
+    # global categoryObjectList
+    code = 0
+
+
+    for lines in csvFile:
+        if lines['category_title'] not in categoryList:
+            categoryList.append(lines['category_title'])
+            categoryDescriptionList.append(lines['category_description'])
+            # thisCat = category(code, lines['category_title'], lines['category_description'])
+            # categoryObjectList.append(thisCat)
+            # code += 1
+
+    chooseCategory()
+# buyTickets()
 
