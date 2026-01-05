@@ -12,17 +12,19 @@ with open('mobile_products.csv', 'r') as file:
 
 def buyTickets():
     global categoryList
+    global categoryDescriptionList
     # categoryList = []
-    global categoryObjectList
+    # global categoryObjectList
     code = 0
 
 
     for lines in csvFile:
         if lines['category_title'] not in categoryList:
             categoryList.append(lines['category_title'])
-            thisCat = category(code, lines['category_title'], lines['category_description'])
-            categoryObjectList.append(thisCat)
-            code += 1
+            categoryDescriptionList.append(lines['category_description'])
+            # thisCat = category(code, lines['category_title'], lines['category_description'])
+            # categoryObjectList.append(thisCat)
+            # code += 1
 
     chooseCategory()
 
@@ -34,6 +36,9 @@ def chooseCategory():
     terminateLoop = True
 
     for data in categoryList:
+        print(i + '.', data)
+        i += 1
+    for data in categoryDescriptionList:
         print(i + '.', data)
         i += 1
 
