@@ -17,7 +17,6 @@ print('bus app')
 def chooseCategory():
     i = 1
     terminateLoop = True
-    global categoryChoiceInput
 
     for data in categoryList:
         print(str(i) + '.', str(data))
@@ -32,9 +31,9 @@ def chooseCategory():
         else:
             terminateLoop = False
             print('You have chosen ' + categoryList[categoryChoiceInput - 1])
-            confirmChoice('category')
+            confirmChoice('category', categoryChoiceInput)
 
-def confirmChoice(choise):
+def confirmChoice(choise, userInput):
     terminateLoop = True
     # error handling
     confirmChoiceInput = int(input('1. To find out more or\n2. To choose this category or\n0. To move back\n>>>'))
@@ -45,20 +44,20 @@ def confirmChoice(choise):
     while terminateLoop:
         match confirmChoiceInput:
             case 1:
-                print(categoryDescriptionList[categoryChoiceInput - 1])
+                print(categoryDescriptionList[userInput - 1])
                 terminateLoop = False
                 #add choise
             case 2:
                 print('You have chosen to move on with this category')
                 terminateLoop = False
-                chooseTouUp()
+                chooseTopUp(userInput)
             case 0:
                 chooseCategory()
             case _:
                 print('Invalid choice')
 
 
-def chooseTouUp():
+def chooseTopUp(categoryChoiceInput):
     #order of variables, use of functions,
     topUpList = []
     topUpDescriptionList = []
