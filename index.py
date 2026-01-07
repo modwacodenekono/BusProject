@@ -55,10 +55,18 @@ def confirmChoice(choice, userInput, topUpList = None):
     #         case _:
     #             print('Invalid choice')
 
+    if topUpList[userInput][3]:
+        a = 'from 2025-08-31T23:00:00+00:00 to 2026-07-31T22:59:00+00:00'
+    else:
+        if topUpList[userInput][4] == 1:
+            a = 'for', topUpList[userInput][4], topUpList[userInput][3][:-1]
+        else:
+            a = 'for', topUpList[userInput][4], topUpList[userInput][3]
+
     while terminateLoop:
         match confirmChoiceInput:
             case 1:
-                print(topUpList)
+                print(topUpList[userInput][1], 'which costs', topUpList[userInput][2] / 100, 'and lasts', topUpList[userInput][3], topUpList[userInput][4], topUpList[userInput][5])
                 terminateLoop = False
                 #add choice!
             case 2:
@@ -84,7 +92,7 @@ def chooseTopUp(categoryChoiceInput):
         for line in csvFile1:
             if line['category_title'] == categoryList[categoryChoiceInput]:
                 topUpList.append([line['topup_title'], line['topup_description'], line['topup_price_in_pence'], line['topup_entitlement_unit'], line['topup_entitlement_value'], line['topup_entitlement_quantity'], line['topup_passenger_class_name'], line['topup_passenger_class_quantity']])
-    #            2025-08-31T23:00:00+00:00 2026-07-31T22:59:00+00:00
+
 
     for data in topUpList:
         print(str(i) + '.', str(data[0]))
