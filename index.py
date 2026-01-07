@@ -78,7 +78,7 @@ def confirmChoice(choice, userInput, topUpList = None):
         while terminateLoop:
             match confirmChoiceInput:
                 case 1:
-                    print(topUpList[userInput][1], 'which costs', topUpList[userInput][2] / 100, 'and lasts', topUpOutputPhrase + '. This ticket is designed for', topUpList[userInput][6], topUpOutputPhrase2)
+                    print(topUpList[userInput][1], 'which costs', int(topUpList[userInput][2]) / 100, 'and lasts', topUpOutputPhrase + '. This ticket is designed for', topUpList[userInput][6], topUpOutputPhrase2)
                     terminateLoop = False
                     #add choice!
                 case 2:
