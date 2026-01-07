@@ -1,11 +1,5 @@
 import csv
 
-print('bus app')
-
-
-
-
-
 # except FileNotFoundError:
 #    print(f"File is not found")
 
@@ -46,6 +40,21 @@ def confirmChoice(choice, userInput):
     if choice == 'category':
         x = 1
 
+    # while terminateLoop:
+    #     match confirmChoiceInput:
+    #         case 1:
+    #             print(categoryDescriptionList[userInput - 1])
+    #             terminateLoop = False
+    #             #add choice!
+    #         case 2:
+    #             print('You have chosen to move on with this category')
+    #             terminateLoop = False
+    #             chooseTopUp(userInput)
+    #         case 0:
+    #             chooseCategory()
+    #         case _:
+    #             print('Invalid choice')
+
     while terminateLoop:
         match confirmChoiceInput:
             case 1:
@@ -67,8 +76,6 @@ def confirmChoice(choice, userInput):
 def chooseTopUp(categoryChoiceInput):
     #order of variables, use of functions,
     topUpList = []
-    topUpDescriptionList = []
-    topUpPrice = []
     terminateLoop = True
     i = 1
 
@@ -76,13 +83,11 @@ def chooseTopUp(categoryChoiceInput):
         csvFile1 = csv.DictReader(file1)
         for line in csvFile1:
             if line['category_title'] == categoryList[categoryChoiceInput]:
-                #2d list
-                topUpList.append(line['topup_title'])
-                topUpDescriptionList.append(line['topup_description'])
-                topUpPrice.append(line['topup_price_in_pence'])
+                topUpList.append([line['topup_title'], line['topup_description'], line['topup_price_in_pence'], line['topup_entitlement_unit'], line['topup_entitlement_value'], line['topup_entitlement_quantity'], line['topup_passenger_class_name'], line['topup_passenger_class_quantity']])
+    #             2025-08-31T23:00:00+00:00 2026-07-31T22:59:00+00:00
 
     for data in topUpList:
-        print(str(i) + '.', str(data))
+        print(str(i) + '.', str(data[0]))
         i += 1
 
     while terminateLoop:
@@ -93,9 +98,11 @@ def chooseTopUp(categoryChoiceInput):
 
         else:
             terminateLoop = False
-            print('You have chosen ' + topUpList[topUpInputNumber - 1])
+            print('You have chosen ' + topUpList[topUpInputNumber - 1][0])
             confirmChoice('topUp', topUpInputNumber)
 
+
+print('===>>> BUS APP <<<===')
 
 #going through csv
 with open('mobile_products.csv', 'r') as file:
