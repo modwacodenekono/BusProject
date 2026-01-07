@@ -25,4 +25,10 @@ https://www.w3schools.com/python/python_file_open.asp
 
 ##Modules used
 
+Lecture presentation
+
+https://docs.python.org/3/library/exceptions.html
+
+https://www.w3schools.com/python/python_try_except.asp
+
 ##Review 
