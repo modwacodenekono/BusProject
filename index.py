@@ -21,18 +21,18 @@ def chooseCategory():
     # Validating user input and calling next function
     while terminateLoop:
         categoryChoiceInput = int(input('To find out more or choose a category please enter the number.\n>>>')) - 1
-        if 0 > categoryChoiceInput or categoryChoiceInput > len(categoryList):
+        if 0 > categoryChoiceInput or categoryChoiceInput > len(categoryList):# maybe - 1!
             print('Invalid choice')
 
         else:
             terminateLoop = False
             print('You have chosen ' + categoryList[categoryChoiceInput])
-            confirmChoice('category', categoryChoiceInput + 1)
+            confirmChoice('category', categoryChoiceInput)
 
 
 
 # This function allows confirming choice or going back. It also works for two different parts of the program, which saves space
-def confirmChoice(choice, userInput):
+def confirmChoice(choice, userInput, topUpList = None):
     terminateLoop = True
     # error handling
     confirmChoiceInput = int(input('1. To find out more or\n2. To choose this category or\n0. To move back\n>>>'))
@@ -43,7 +43,7 @@ def confirmChoice(choice, userInput):
     # while terminateLoop:
     #     match confirmChoiceInput:
     #         case 1:
-    #             print(categoryDescriptionList[userInput - 1])
+    #             print(categoryDescriptionList[userInput])
     #             terminateLoop = False
     #             #add choice!
     #         case 2:
@@ -58,7 +58,7 @@ def confirmChoice(choice, userInput):
     while terminateLoop:
         match confirmChoiceInput:
             case 1:
-                print(categoryDescriptionList[userInput - 1])
+                print(topUpList)
                 terminateLoop = False
                 #add choice!
             case 2:
@@ -99,7 +99,7 @@ def chooseTopUp(categoryChoiceInput):
         else:
             terminateLoop = False
             print('You have chosen ' + topUpList[topUpInputNumber - 1][0])
-            confirmChoice('topUp', topUpInputNumber)
+            confirmChoice('topUp', topUpInputNumber, topUpList)
 
 
 print('===>>> BUS APP <<<===')
