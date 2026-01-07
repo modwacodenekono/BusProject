@@ -38,45 +38,56 @@ def confirmChoice(choice, userInput, topUpList = None):
     confirmChoiceInput = int(input('1. To find out more or\n2. To choose this category or\n0. To move back\n>>>'))
 
     if choice == 'category':
-        x = 1
 
-    # while terminateLoop:
-    #     match confirmChoiceInput:
-    #         case 1:
-    #             print(categoryDescriptionList[userInput])
-    #             terminateLoop = False
-    #             #add choice!
-    #         case 2:
-    #             print('You have chosen to move on with this category')
-    #             terminateLoop = False
-    #             chooseTopUp(userInput)
-    #         case 0:
-    #             chooseCategory()
-    #         case _:
-    #             print('Invalid choice')
+        while terminateLoop:
+            match confirmChoiceInput:
+                case 1:
+                    print(categoryDescriptionList[userInput])
+                    terminateLoop = False
+                    # add choice!
+                case 2:
+                    terminateLoop = False
+                    chooseTopUp(userInput)
+                case 0:
+                    chooseCategory()
+                case _:
+                    print('Invalid choice')
 
-    if topUpList[userInput][3]:
-        a = 'from 2025-08-31T23:00:00+00:00 to 2026-07-31T22:59:00+00:00'
     else:
-        if topUpList[userInput][4] == 1:
-            a = 'for', topUpList[userInput][4], topUpList[userInput][3][:-1]
-        else:
-            a = 'for', topUpList[userInput][4], topUpList[userInput][3]
 
-    while terminateLoop:
-        match confirmChoiceInput:
-            case 1:
-                print(topUpList[userInput][1], 'which costs', topUpList[userInput][2] / 100, 'and lasts', topUpList[userInput][3], topUpList[userInput][4], topUpList[userInput][5])
-                terminateLoop = False
-                #add choice!
-            case 2:
-                print('You have chosen to move on with this category')
-                terminateLoop = False
-                chooseTopUp(userInput)
-            case 0:
-                chooseCategory()
-            case _:
-                print('Invalid choice')
+        if topUpList[userInput][3]:
+            topUpOutputPhrase = 'from 2025-08-31T23:00:00+00:00 to 2026-07-31T22:59:00+00:00'
+        else:
+            topUpOutputPhrase = 'for', topUpList[userInput][4],
+            if topUpList[userInput][4] == 1:
+                topUpOutputPhrase += topUpList[userInput][3][:-1]
+            else:
+                topUpOutputPhrase += topUpList[userInput][3]
+
+            topUpOutputPhrase += 'providing you with', topUpList[userInput][5], 'ticket'
+
+            if topUpList[userInput][5] != 1:
+                topUpOutputPhrase += 's'
+
+        if topUpList[userInput][7] != 1:
+            topUpOutputPhrase2 = 'and for a group of', topUpList[userInput][7], 'people.'
+        else:
+            topUpOutputPhrase2 = '.'
+
+
+        while terminateLoop:
+            match confirmChoiceInput:
+                case 1:
+                    print(topUpList[userInput][1], 'which costs', topUpList[userInput][2] / 100, 'and lasts', topUpOutputPhrase + '. This ticket is designed for', topUpList[userInput][6], topUpOutputPhrase2)
+                    terminateLoop = False
+                    #add choice!
+                case 2:
+                    terminateLoop = False
+                    chooseTopUp(userInput)# finish function!
+                case 0:
+                    chooseCategory()
+                case _:
+                    print('Invalid choice')
 
 
 
