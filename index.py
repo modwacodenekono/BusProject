@@ -84,7 +84,7 @@ def chooseTopUp(categoryChoiceInput):
         for line in csvFile1:
             if line['category_title'] == categoryList[categoryChoiceInput]:
                 topUpList.append([line['topup_title'], line['topup_description'], line['topup_price_in_pence'], line['topup_entitlement_unit'], line['topup_entitlement_value'], line['topup_entitlement_quantity'], line['topup_passenger_class_name'], line['topup_passenger_class_quantity']])
-    #             2025-08-31T23:00:00+00:00 2026-07-31T22:59:00+00:00
+    #            2025-08-31T23:00:00+00:00 2026-07-31T22:59:00+00:00
 
     for data in topUpList:
         print(str(i) + '.', str(data[0]))
