@@ -13,32 +13,37 @@ print('bus app')
 
 
 
-
+# The user is able to pick one category and each category is only shown once
 def chooseCategory():
     i = 1
     terminateLoop = True
 
+    # Going through csv
     for data in categoryList:
         print(str(i) + '.', str(data))
         i += 1
 
-    #error handling
+    # error handling!
+    # Validating user input and calling next function
     while terminateLoop:
-        categoryChoiceInput = int(input('To find out more or choose a category please enter the number.\n>>>'))
-        if 0 > categoryChoiceInput - 1 or categoryChoiceInput > len(categoryList):
+        categoryChoiceInput = int(input('To find out more or choose a category please enter the number.\n>>>')) - 1
+        if 0 > categoryChoiceInput or categoryChoiceInput > len(categoryList):
             print('Invalid choice')
 
         else:
             terminateLoop = False
-            print('You have chosen ' + categoryList[categoryChoiceInput - 1])
-            confirmChoice('category', categoryChoiceInput)
+            print('You have chosen ' + categoryList[categoryChoiceInput])
+            confirmChoice('category', categoryChoiceInput + 1)
 
-def confirmChoice(choise, userInput):
+
+
+# This function allows confirming choice or going back. It also works for two different parts of the program, which saves space
+def confirmChoice(choice, userInput):
     terminateLoop = True
     # error handling
     confirmChoiceInput = int(input('1. To find out more or\n2. To choose this category or\n0. To move back\n>>>'))
 
-    if choise == 'category':
+    if choice == 'category':
         x = 1
 
     while terminateLoop:
@@ -46,7 +51,7 @@ def confirmChoice(choise, userInput):
             case 1:
                 print(categoryDescriptionList[userInput - 1])
                 terminateLoop = False
-                #add choise
+                #add choice!
             case 2:
                 print('You have chosen to move on with this category')
                 terminateLoop = False
@@ -57,6 +62,8 @@ def confirmChoice(choise, userInput):
                 print('Invalid choice')
 
 
+
+# Lets you choose top-up and describes different features of it
 def chooseTopUp(categoryChoiceInput):
     #order of variables, use of functions,
     topUpList = []
@@ -68,7 +75,7 @@ def chooseTopUp(categoryChoiceInput):
     with open('mobile_products.csv', 'r') as file1:
         csvFile1 = csv.DictReader(file1)
         for line in csvFile1:
-            if line['category_title'] == categoryList[categoryChoiceInput - 1]:
+            if line['category_title'] == categoryList[categoryChoiceInput]:
                 #2d list
                 topUpList.append(line['topup_title'])
                 topUpDescriptionList.append(line['topup_description'])
@@ -87,9 +94,10 @@ def chooseTopUp(categoryChoiceInput):
         else:
             terminateLoop = False
             print('You have chosen ' + topUpList[topUpInputNumber - 1])
-            confirmChoice('topUp')
+            confirmChoice('topUp', topUpInputNumber)
 
 
+#going through csv
 with open('mobile_products.csv', 'r') as file:
     csvFile = csv.DictReader(file)
     categoryList = []
