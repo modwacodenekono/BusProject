@@ -54,38 +54,37 @@ def confirmChoice(choice, userInput, topUpList = None):
                     print('Invalid choice')
 
     else:
-
-        if topUpList[userInput][3]:
+        print(topUpList[userInput][3])
+        if topUpList[userInput][3] == '':
             topUpOutputPhrase = 'from 2025-08-31T23:00:00+00:00 to 2026-07-31T22:59:00+00:00'
         else:
-            topUpOutputPhrase = 'for', topUpList[userInput][4],
+            topUpOutputPhrase = 'for ' + topUpList[userInput][4]
             if topUpList[userInput][4] == 1:
                 topUpOutputPhrase += topUpList[userInput][3][:-1]
             else:
-                topUpOutputPhrase += topUpList[userInput][3]
+                topUpOutputPhrase += ' ' + topUpList[userInput][3]
 
-            topUpOutputPhrase += 'providing you with', topUpList[userInput][5], 'ticket'
+            topUpOutputPhrase += 'providing you with ' + topUpList[userInput][5] + ' ticket'
 
             if topUpList[userInput][5] != 1:
                 topUpOutputPhrase += 's'
 
-        if topUpList[userInput][7] != 1:
-            topUpOutputPhrase2 = 'and for a group of', topUpList[userInput][7], 'people.'
-        else:
+        if topUpList[userInput][7] == '1':
             topUpOutputPhrase2 = '.'
-
+        else:
+            topUpOutputPhrase2 = ' and for a group of ' + topUpList[userInput][7] + ' people.'
 
         while terminateLoop:
             match confirmChoiceInput:
                 case 1:
-                    print(topUpList[userInput][1], 'which costs', int(topUpList[userInput][2]) / 100, 'and lasts', topUpOutputPhrase + '. This ticket is designed for', topUpList[userInput][6], topUpOutputPhrase2)
+                    print(topUpList[userInput][1], 'That costs £' , int(int(topUpList[userInput][2]) / 100), 'and lasts', topUpOutputPhrase + '. This ticket is designed for', topUpList[userInput][6] + topUpOutputPhrase2)
                     terminateLoop = False
                     #add choice!
                 case 2:
                     terminateLoop = False
                     chooseTopUp(userInput)# finish function!
                 case 0:
-                    chooseCategory()
+                    chooseTopUp()
                 case _:
                     print('Invalid choice')
 
@@ -111,7 +110,7 @@ def chooseTopUp(categoryChoiceInput):
 
     while terminateLoop:
         topUpChoiceInput = int(input('To find out more or buy a ticket please enter the number.\n>>>'))
-        topUpInputNumber = topUpChoiceInput - 1
+        topUpInputNumber = topUpChoiceInput - 1 # ???????????
         if 0 > topUpChoiceInput - 1 or topUpChoiceInput > len(topUpList):
             print('Invalid choice')
 
