@@ -64,7 +64,7 @@ def confirmChoice(choice, userInput, topUpList = None):
             else:
                 topUpOutputPhrase += ' ' + topUpList[userInput][3]
 
-            topUpOutputPhrase += 'providing you with ' + topUpList[userInput][5] + ' ticket'
+            topUpOutputPhrase += ' providing you with ' + topUpList[userInput][5] + ' ticket'
 
             if topUpList[userInput][5] != 1:
                 topUpOutputPhrase += 's'
@@ -79,10 +79,18 @@ def confirmChoice(choice, userInput, topUpList = None):
                 case 1:
                     print(topUpList[userInput][1], 'That costs £' , int(int(topUpList[userInput][2]) / 100), 'and lasts', topUpOutputPhrase + '. This ticket is designed for', topUpList[userInput][6] + topUpOutputPhrase2)
                     terminateLoop = False
+
+                    confirmChoiceInput2 = int(input('Do you still want to buy this ticket?\n1. Yes\n0. Go back\n>>>'))
+                    if confirmChoiceInput2 == '1':
+                        payment()
+                    elif confirmChoiceInput2 == '0':
+                        chooseTopUp(userInput)
+                    else:
+                        print('Invalid choice')
                     #add choice!
                 case 2:
                     terminateLoop = False
-                    chooseTopUp(userInput)# finish function!
+                    payment()
                 case 0:
                     chooseTopUp()
                 case _:
@@ -109,16 +117,18 @@ def chooseTopUp(categoryChoiceInput):
         i += 1
 
     while terminateLoop:
-        topUpChoiceInput = int(input('To find out more or buy a ticket please enter the number.\n>>>'))
-        topUpInputNumber = topUpChoiceInput - 1 # ???????????
-        if 0 > topUpChoiceInput - 1 or topUpChoiceInput > len(topUpList):
+        topUpChoiceInput = int(input('To find out more or buy a ticket please enter the number.\n>>>')) - 1
+        if 0 > topUpChoiceInput or topUpChoiceInput > len(topUpList):
             print('Invalid choice')
 
         else:
             terminateLoop = False
-            print('You have chosen ' + topUpList[topUpInputNumber - 1][0])
-            confirmChoice('topUp', topUpInputNumber, topUpList)
+            print('You have chosen ' + topUpList[topUpChoiceInput][0])
+            confirmChoice('topUp', topUpChoiceInput, topUpList)
 
+
+def payment():
+    print('Processing...\nThank you for your purchase!')
 
 print('===>>> BUS APP <<<===')
 
