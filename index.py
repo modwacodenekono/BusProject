@@ -3,9 +3,13 @@ import csv, datetime, os
 # You can delete this file to try this program functionality
 
 class User:
-    def __init__(self, name, age):
-        self.name = name
-        self.age = age
+    def __init__(self):
+        self.tickets = []
+        self.desc = {}
+        self.loadData()
+
+    def load_data(self):
+
 
 
 # while True:
