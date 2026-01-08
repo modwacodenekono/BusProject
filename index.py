@@ -1,4 +1,4 @@
-import csv, datetime
+import csv, datetime, os
 
 # except FileNotFoundError:
 #    print(f"File is not found")
@@ -149,18 +149,24 @@ def payment(data):
     print('Processing...\n\nThank you for your purchase!')
 
     transaction = {
-        'transaction_time': datetime.datetime.now(),
+        'transaction_time': datetime.datetime.now().strftime("%Y-%m-%d %H:%M:%S"),
         'category_title': categoryList[categoryChoiceInput],
         'topup_title': data[0],
         'topup_price_in_pence': data[2]
     }
 
+    csv_filename = 'transactions.csv'
+    file_exists = os.path.exists(csv_filename)
+
+    # Write to CSV file
+
+    with open(csv_filename, 'a', newline='', encoding='utf-8') as csvfile:
 
 
 
 print('===>>> BUS APP <<<===')
 
-#going through csv
+# Going through csv and saving data into the list
 with open('mobile_products.csv', 'r') as file:
     csvFile = csv.DictReader(file)
     categoryList = []
