@@ -25,10 +25,24 @@ https://www.w3schools.com/python/python_file_open.asp
 
 ##Modules used
 
+csv, datetime, os
+
 Lecture presentation
 
 https://docs.python.org/3/library/exceptions.html
 
 https://www.w3schools.com/python/python_try_except.asp
+
+https://www.w3schools.com/python/python_string_formatting.asp
+
+https://www.reddit.com/r/learnpython/comments/1hrd60d/pc_clock_connection_with_python/
+
+https://docs.python.org/3/library/datetime.html
+
+https://www.w3schools.com/python/python_file_write.asp
+
+https://docs.python.org/3/library/functions.html#open
+
+https://www.geeksforgeeks.org/python/python-os-path-exists-method/
 
 ##Review 
