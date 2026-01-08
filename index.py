@@ -159,9 +159,24 @@ def payment(data):
     file_exists = os.path.exists(csv_filename)
 
     # Write to CSV file
+    try:
+        with open(csv_filename, 'a', newline='', encoding='utf-8') as csvfile:
+            fieldnames = ['transaction_time', 'category_title', 'topup_title', 'topup_price_in_pence']
 
-    with open(csv_filename, 'a', newline='', encoding='utf-8') as csvfile:
+            writer = csv.DictWriter(csvfile, fieldnames=fieldnames)
 
+            # Write header if file is new
+            if not file_exists:
+                writer.writeheader()
+
+            # Write transaction data
+            writer.writerow(transaction)
+
+
+    except Exception as e:
+        print('Processing...')
+        print('Thank you for your purchase!')
+        print(f'Warning: Could not save receipt - {str(e)}')
 
 
 print('===>>> BUS APP <<<===')
