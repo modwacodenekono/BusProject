@@ -1,11 +1,11 @@
 import csv, datetime, os
 
+# You can delete this file to try this program functionality
 
 class User:
     def __init__(self, name, age):
         self.name = name
         self.age = age
-
 
 
 # while True:
@@ -205,7 +205,28 @@ def payment(data):
     exit()
 
 
-print('===>>> BUS APP <<<===')
+print('===>>> BUS APP <<<===\n')
+
+finishLoop = True
+starterMenuInput = input('1. Press 1 to buy tickets or\n2. Press 2 to log in as an admin\n0. Press 0 to exit\n>>> ')
+
+while finishLoop:
+    confirmChoiceInput = int(
+        input('1. To find out more or\n2. To choose this category or\n0. To move back\n>>>'))
+
+    match confirmChoiceInput:
+        case 1:
+            finishLoop = False
+            continue
+        case 2:
+            print('You have chosen to log in as an admin')
+            # admin. ...
+            finishLoop = False
+        case 0:
+            exit()
+        case _:
+            print('Invalid choice')
+
 
 # Going through csv and saving data into the list
 with open('mobile_products.csv', 'r') as file:
