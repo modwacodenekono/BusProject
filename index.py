@@ -22,7 +22,7 @@ def chooseCategory():
     # Validating user input and calling the next function
     while terminateLoop:
         categoryChoiceInput = int(input('To find out more or choose a category please enter the number.\n>>>')) - 1
-        if 0 > categoryChoiceInput or categoryChoiceInput > len(categoryList):# maybe - 1!
+        if 0 > categoryChoiceInput or categoryChoiceInput > len(categoryList) - 1:
             print('Invalid choice')
 
         else:
@@ -32,15 +32,16 @@ def chooseCategory():
 
 
 
-# This function allows confirming choice or going back. It also works for two different parts of the program, which saves space
+# This function allows confirming choice exploring more information or going back. It also works for two different parts of the program, which saves space
 def confirmChoice(choice, userInput, topUpList = None):
     terminateLoop = True
-    # error handling
-    confirmChoiceInput = int(input('1. To find out more or\n2. To choose this category or\n0. To move back\n>>>'))
 
     if choice == 'category':
 
         while terminateLoop:
+            # error handling!
+            confirmChoiceInput = int(input('1. To find out more or\n2. To choose this category or\n0. To move back\n>>>'))
+
             match confirmChoiceInput:
                 case 1:
                     print(categoryDescriptionList[userInput])
@@ -48,22 +49,27 @@ def confirmChoice(choice, userInput, topUpList = None):
                     confirmChoiceInput2 = int(input('Do you still want to buy this ticket?\n1. Yes\n0. Go back\n>>>'))
 
                     terminateLoop = False
+
+                    # Another check if after finding out more information, the user still wants to buy a ticket
                     if confirmChoiceInput2 == 1:
                         chooseTopUp()
                     elif confirmChoiceInput2 == 0:
                         chooseCategory()
                     else:
                         print('Invalid choice')
+
                 case 2:
                     chooseTopUp()
                     terminateLoop = False
                 case 0:
                     chooseCategory()
+                    terminateLoop = False
                 case _:
                     print('Invalid choice')
 
     else:
 
+        # Creating full message considering multiple factors like use of plural and correct appearance of price
         if topUpList[userInput][3] == '':
             topUpOutputPhrase = 'from 2025-08-31T23:00:00+00:00 to 2026-07-31T22:59:00+00:00'
         else:
@@ -84,6 +90,9 @@ def confirmChoice(choice, userInput, topUpList = None):
             topUpOutputPhrase2 = ' and for a group of ' + topUpList[userInput][7] + ' people.'
 
         while terminateLoop:
+            confirmChoiceInput = int(
+                input('1. To find out more or\n2. To choose this category or\n0. To move back\n>>>'))
+
             match confirmChoiceInput:
                 case 1:
                     print(topUpList[userInput][1], 'That costs £' + formatNumber(float(topUpList[userInput][2]) / 100), 'and lasts', topUpOutputPhrase + '. This ticket is designed for', topUpList[userInput][6] + topUpOutputPhrase2)
@@ -91,6 +100,7 @@ def confirmChoice(choice, userInput, topUpList = None):
                     confirmChoiceInput2 = int(input('Do you still want to buy this ticket?\n1. Yes\n0. Go back\n>>>'))
 
                     terminateLoop = False
+
                     if confirmChoiceInput2 == 1:
                         payment(topUpList[userInput])
                     elif confirmChoiceInput2 == 0:
@@ -103,6 +113,7 @@ def confirmChoice(choice, userInput, topUpList = None):
                     terminateLoop = False
                 case 0:
                     chooseTopUp()
+                    terminateLoop = False
                 case _:
                     print('Invalid choice')
 
@@ -110,7 +121,7 @@ def confirmChoice(choice, userInput, topUpList = None):
 
 # Lets you choose top-up and describes different features of it
 def chooseTopUp():
-    #order of variables, use of functions,
+    #order of variables, use of functions!
     topUpList = []
     terminateLoop = True
     i = 1
@@ -119,6 +130,8 @@ def chooseTopUp():
         csvFile1 = csv.DictReader(file1)
         for line in csvFile1:
             if line['category_title'] == categoryList[categoryChoiceInput]:
+
+                #2d list where each list inside contains all the data about one top-up
                 topUpList.append([line['topup_title'], line['topup_description'], line['topup_price_in_pence'], line['topup_entitlement_unit'], line['topup_entitlement_value'], line['topup_entitlement_quantity'], line['topup_passenger_class_name'], line['topup_passenger_class_quantity']])
 
 
@@ -128,7 +141,7 @@ def chooseTopUp():
 
     while terminateLoop:
         topUpChoiceInput = int(input('To find out more or buy a ticket please enter the number.\n>>>')) - 1
-        if 0 > topUpChoiceInput or topUpChoiceInput > len(topUpList):
+        if 0 > topUpChoiceInput or topUpChoiceInput > len(topUpList) - 1:
             print('Invalid choice')
 
         else:
@@ -136,7 +149,7 @@ def chooseTopUp():
             print('You have chosen ' + topUpList[topUpChoiceInput][0])
             confirmChoice('topUp', topUpChoiceInput, topUpList)
 
-
+# If the price is an integer, it is displayed as such, otherwise it is displayed with two decimal places
 def formatNumber(value):
     num = float(value)
     if num == int(num):
@@ -144,7 +157,7 @@ def formatNumber(value):
     else:
         return f"{num:.2f}"
 
-
+# Function which saves data about transaction
 def payment(data):
     print('Processing...\n\nThank you for your purchase!')
 
@@ -178,6 +191,8 @@ def payment(data):
         print('Thank you for your purchase!')
         print(f'Warning: Could not save receipt - {str(e)}')
 
+    exit()
+
 
 print('===>>> BUS APP <<<===')
 
@@ -190,6 +205,7 @@ with open('mobile_products.csv', 'r') as file:
     # code = 0
 
 
+    # Saving data into lists
     for lines in csvFile:
         if lines['category_title'] not in categoryList:
             categoryList.append(lines['category_title'])
