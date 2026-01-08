@@ -11,6 +11,7 @@ import csv
 def chooseCategory():
     i = 1
     terminateLoop = True
+    global categoryChoiceInput
 
     # Going through csv
     for data in categoryList:
@@ -43,18 +44,26 @@ def confirmChoice(choice, userInput, topUpList = None):
             match confirmChoiceInput:
                 case 1:
                     print(categoryDescriptionList[userInput])
+
+                    confirmChoiceInput2 = int(input('Do you still want to buy this ticket?\n1. Yes\n0. Go back\n>>>'))
+
                     terminateLoop = False
-                    # add choice!
+                    if confirmChoiceInput2 == 1:
+                        chooseTopUp()
+                    elif confirmChoiceInput2 == 0:
+                        chooseCategory()
+                    else:
+                        print('Invalid choice')
                 case 2:
+                    chooseTopUp()
                     terminateLoop = False
-                    chooseTopUp(userInput)
                 case 0:
                     chooseCategory()
                 case _:
                     print('Invalid choice')
 
     else:
-        print(topUpList[userInput][3])
+
         if topUpList[userInput][3] == '':
             topUpOutputPhrase = 'from 2025-08-31T23:00:00+00:00 to 2026-07-31T22:59:00+00:00'
         else:
@@ -78,19 +87,20 @@ def confirmChoice(choice, userInput, topUpList = None):
             match confirmChoiceInput:
                 case 1:
                     print(topUpList[userInput][1], 'That costs £' + formatNumber(float(topUpList[userInput][2]) / 100), 'and lasts', topUpOutputPhrase + '. This ticket is designed for', topUpList[userInput][6] + topUpOutputPhrase2)
-                    terminateLoop = False
 
                     confirmChoiceInput2 = int(input('Do you still want to buy this ticket?\n1. Yes\n0. Go back\n>>>'))
+
+                    terminateLoop = False
                     if confirmChoiceInput2 == 1:
                         payment()
                     elif confirmChoiceInput2 == 0:
-                        chooseTopUp(userInput)
+                        chooseTopUp()
                     else:
                         print('Invalid choice')
-                    #add choice!
+
                 case 2:
-                    terminateLoop = False
                     payment()
+                    terminateLoop = False
                 case 0:
                     chooseTopUp()
                 case _:
@@ -99,7 +109,7 @@ def confirmChoice(choice, userInput, topUpList = None):
 
 
 # Lets you choose top-up and describes different features of it
-def chooseTopUp(categoryChoiceInput):
+def chooseTopUp():
     #order of variables, use of functions,
     topUpList = []
     terminateLoop = True
@@ -136,7 +146,7 @@ def formatNumber(value):
 
 
 def payment():
-    print('Processing...\nThank you for your purchase!')
+    print('Processing...\n\nThank you for your purchase!')
 
 print('===>>> BUS APP <<<===')
 
