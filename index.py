@@ -1,4 +1,4 @@
-import csv
+import csv, datetime
 
 # except FileNotFoundError:
 #    print(f"File is not found")
@@ -19,7 +19,7 @@ def chooseCategory():
         i += 1
 
     # error handling!
-    # Validating user input and calling next function
+    # Validating user input and calling the next function
     while terminateLoop:
         categoryChoiceInput = int(input('To find out more or choose a category please enter the number.\n>>>')) - 1
         if 0 > categoryChoiceInput or categoryChoiceInput > len(categoryList):# maybe - 1!
@@ -92,14 +92,14 @@ def confirmChoice(choice, userInput, topUpList = None):
 
                     terminateLoop = False
                     if confirmChoiceInput2 == 1:
-                        payment()
+                        payment(topUpList[userInput])
                     elif confirmChoiceInput2 == 0:
                         chooseTopUp()
                     else:
                         print('Invalid choice')
 
                 case 2:
-                    payment()
+                    payment(topUpList[userInput])
                     terminateLoop = False
                 case 0:
                     chooseTopUp()
@@ -145,8 +145,18 @@ def formatNumber(value):
         return f"{num:.2f}"
 
 
-def payment():
+def payment(data):
     print('Processing...\n\nThank you for your purchase!')
+
+    transaction = {
+        'transaction_time': datetime.datetime.now(),
+        'category_title': categoryList[categoryChoiceInput],
+        'topup_title': data[0],
+        'topup_price_in_pence': data[2]
+    }
+
+
+
 
 print('===>>> BUS APP <<<===')
 
@@ -168,5 +178,5 @@ with open('mobile_products.csv', 'r') as file:
             # code += 1
 
     chooseCategory()
-# buyTickets()
+
 
