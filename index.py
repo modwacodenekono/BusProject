@@ -77,13 +77,13 @@ def confirmChoice(choice, userInput, topUpList = None):
         while terminateLoop:
             match confirmChoiceInput:
                 case 1:
-                    print(topUpList[userInput][1], 'That costs £' , int(int(topUpList[userInput][2]) / 100), 'and lasts', topUpOutputPhrase + '. This ticket is designed for', topUpList[userInput][6] + topUpOutputPhrase2)
+                    print(topUpList[userInput][1], 'That costs £' + formatNumber(float(topUpList[userInput][2]) / 100), 'and lasts', topUpOutputPhrase + '. This ticket is designed for', topUpList[userInput][6] + topUpOutputPhrase2)
                     terminateLoop = False
 
                     confirmChoiceInput2 = int(input('Do you still want to buy this ticket?\n1. Yes\n0. Go back\n>>>'))
-                    if confirmChoiceInput2 == '1':
+                    if confirmChoiceInput2 == 1:
                         payment()
-                    elif confirmChoiceInput2 == '0':
+                    elif confirmChoiceInput2 == 0:
                         chooseTopUp(userInput)
                     else:
                         print('Invalid choice')
@@ -125,6 +125,14 @@ def chooseTopUp(categoryChoiceInput):
             terminateLoop = False
             print('You have chosen ' + topUpList[topUpChoiceInput][0])
             confirmChoice('topUp', topUpChoiceInput, topUpList)
+
+
+def formatNumber(value):
+    num = float(value)
+    if num == int(num):
+        return str(int(num))
+    else:
+        return f"{num:.2f}"
 
 
 def payment():
