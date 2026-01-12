@@ -3,13 +3,20 @@ import csv, datetime, os
 # You can delete this file to try this program functionality
 
 class User:
-    def __init__(self):
-        self.tickets = []
-        self.desc = {}
-        self.loadData()
 
-    def load_data(self):
+    categoryList = []
+    categoryDescriptionList = []
 
+    def loadData(self):
+        # Going through csv and saving data into the list
+        with open('mobile_products.csv', 'r') as file:
+            csvFile = csv.DictReader(file)
+
+            # Saving data into lists
+            for lines in csvFile:
+                if lines['category_title'] not in User.categoryList:
+                    categoryList.append(lines['category_title'])
+                    categoryDescriptionList.append(lines['category_description'])
 
 
 # while True:
@@ -232,38 +239,11 @@ while finishLoop:
             print('Invalid choice')
 
 
-# Going through csv and saving data into the list
-with open('mobile_products.csv', 'r') as file:
-    csvFile = csv.DictReader(file)
-    categoryList = []
-    categoryDescriptionList = []
-    # categoryObjectList
-    # code = 0
 
-
-    # Saving data into lists
-    for lines in csvFile:
-        if lines['category_title'] not in categoryList:
-            categoryList.append(lines['category_title'])
-            categoryDescriptionList.append(lines['category_description'])
-            # thisCat = category(code, lines['category_title'], lines['category_description'])
-            # categoryObjectList.append(thisCat)
-            # code += 1
-
-    chooseCategory()
+chooseCategory()
 
 
 
-
-
-def adminLogIn():
-    adminLogInInput1 = int(input('Wellcome to Admin Log In\nPlease enter your Username\n>>>'))
-    adminLogInInput2 = int(input('Now please enter your Password\n>>>'))
-
-    if adminLogInInput1 == 123456 and adminLogInInput2 == 123456:
-        print('You have successfully logged in as an admin')
-    else:
-        print('Incorrect Username or Password')
 
 
 
