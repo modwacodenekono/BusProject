@@ -7,6 +7,12 @@ class User:
     categoryList = []
     categoryDescriptionList = []
 
+    def getCategoryList(self):
+        return self.categoryList
+
+    def getCategoryDescriptionList(self):
+        return self.categoryDescriptionList
+
     def loadData(self):
         # Going through csv and saving data into the list
         with open('mobile_products.csv', 'r') as file:
@@ -14,9 +20,9 @@ class User:
 
             # Saving data into lists
             for lines in csvFile:
-                if lines['category_title'] not in User.categoryList:
-                    categoryList.append(lines['category_title'])
-                    categoryDescriptionList.append(lines['category_description'])
+                if lines['category_title'] not in user.categoryList:
+                    self.categoryList.append(lines['category_title'])
+                    self.categoryDescriptionList.append(lines['category_description'])
 
 
 # while True:
@@ -36,7 +42,7 @@ def chooseCategory():
     global categoryChoiceInput
 
     # Going through csv
-    for data in categoryList:
+    for data in user.getCategoryList():
         print(str(i) + '.', str(data))
         i += 1
 
@@ -44,12 +50,12 @@ def chooseCategory():
     # Validating user input and calling the next function
     while terminateLoop:
         categoryChoiceInput = int(input('To find out more or choose a category please enter the number.\n>>>')) - 1
-        if 0 > categoryChoiceInput or categoryChoiceInput > len(categoryList) - 1:
+        if 0 > categoryChoiceInput or categoryChoiceInput > len(user.getCategoryList()) - 1:
             print('Invalid choice')
 
         else:
             terminateLoop = False
-            print('You have chosen ' + categoryList[categoryChoiceInput])
+            print('You have chosen ' + user.getCategoryList()[categoryChoiceInput])
             confirmChoice('category', categoryChoiceInput)
 
 
@@ -66,7 +72,7 @@ def confirmChoice(choice, userInput, topUpList = None):
 
             match confirmChoiceInput:
                 case 1:
-                    print(categoryDescriptionList[userInput])
+                    print(user.getCategoryDescriptionList()[userInput])
 
                     confirmChoiceInput2 = int(input('Do you still want to buy this ticket?\n1. Yes\n0. Go back\n>>>'))
 
@@ -151,7 +157,7 @@ def chooseTopUp():
     with open('mobile_products.csv', 'r') as file1:
         csvFile1 = csv.DictReader(file1)
         for line in csvFile1:
-            if line['category_title'] == categoryList[categoryChoiceInput]:
+            if line['category_title'] == user.getCategoryList()[categoryChoiceInput]:
 
                 #2d list where each list inside contains all the data about one top-up
                 topUpList.append([line['topup_title'], line['topup_description'], line['topup_price_in_pence'], line['topup_entitlement_unit'], line['topup_entitlement_value'], line['topup_entitlement_quantity'], line['topup_passenger_class_name'], line['topup_passenger_class_quantity']])
@@ -185,7 +191,7 @@ def payment(data):
 
     transaction = {
         'transaction_time': datetime.datetime.now().strftime("%Y-%m-%d %H:%M:%S"),
-        'category_title': categoryList[categoryChoiceInput],
+        'category_title': user.getCategoryList()[categoryChoiceInput],
         'topup_title': data[0],
         'topup_price_in_pence': data[2]
     }
@@ -218,32 +224,24 @@ def payment(data):
 
 print('===>>> BUS APP <<<===\n')
 
+user = User()
+user.loadData()
+
 finishLoop = True
-starterMenuInput = input('1. Press 1 to buy tickets or\n2. Press 2 to log in as an admin\n0. Press 0 to exit\n>>> ')
 
 while finishLoop:
-    confirmChoiceInput = int(
-        input('1. To find out more or\n2. To choose this category or\n0. To move back\n>>>'))
+    starterMenuInput = input('1. Press 1 to buy tickets or\n2. Press 2 to log in as an admin\n0. Press 0 to exit\n>>> ')
 
-    match confirmChoiceInput:
+    match starterMenuInput:
         case 1:
             finishLoop = False
+            chooseCategory()
             continue
         case 2:
-            print('You have chosen to log in as an admin')
-            # admin. ...
+            print('You have chosen to log in as an admin\n')
+            # admin.admin.logIn() ...
             finishLoop = False
         case 0:
             exit()
         case _:
             print('Invalid choice')
-
-
-
-chooseCategory()
-
-
-
-
-
-
