@@ -1,8 +1,6 @@
 import csv, datetime, os
 import admin
 
-# You can delete this file to try this program functionality
-
 class User:
 
     categoryList = []

@@ -7,13 +7,14 @@ At first the user should be greeted. After that he will be asked the purpose of 
 
 2. User will be asked to enter login and password. If they are incorrect user will have to do it again. They are checked by a class function to get the variable from the class. Now admin can change prices of the tickets. At all points a logout option should be available
 
+The program creates a transaction.csv file which stores your transactions. You can delete this file to try this program functionality
 
 --------------------------------------------------------------
 --------------------------------------------------------------
 --------------------------------------------------------------
 
 
-##Use case diagrams
+#Use case diagrams
 
 ┌─────────────────────────────────────┐
 │               User                  │
@@ -48,13 +49,15 @@ At first the user should be greeted. After that he will be asked the purpose of 
 │ + changePrice(): void               │
 └─────────────────────────────────────┘
 
-##Modules used
+If you can't see the diagrams, try making the window smaller
+
+#Modules used
 
 csv, datetime, os
 
 I created admin as a separate class
 
-##References
+#References
 
 Lecture presentation
 
