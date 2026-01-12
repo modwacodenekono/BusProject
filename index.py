@@ -1,4 +1,5 @@
 import csv, datetime, os
+import admin
 
 # You can delete this file to try this program functionality
 
@@ -257,7 +258,7 @@ while finishLoop:
                 continue
             case 2:
                 print('You have chosen to log in as an admin\n')
-                # admin.admin.logIn() ...
+                admin.adminInterface()
                 finishLoop = False
             case 0:
                 exit()
