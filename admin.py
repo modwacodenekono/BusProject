@@ -1,0 +1,138 @@
+import csv, os
+
+# Admin class is encapsulated to ensure safety and attributes are returned through getters
+class Admin:
+    # Attribute, which checks if the user has entered the correct username and password
+    adminRestriction = True
+
+    def __init__(self, username, password):
+        self.adminUsername = username
+        self.adminPassword = password
+
+    def getAdminUsername(self):
+        return self.adminUsername
+
+    def getAdminPassword(self):
+        return self.adminPassword
+
+    # Checks username and password to remove admin restriction
+    def adminLogIn(self, username, password):
+        if username == self.getAdminUsername() and password == self.getAdminPassword():
+            print('You have successfully logged in as an admin')
+            self.adminRestriction = False
+        else:
+            print('Incorrect Username or Password')
+
+
+    def changeProductPrice(self, category_name, topup_name, newPricePence):
+        if self.adminRestriction:
+            print("Access denied. Please log in first.")
+            return False
+
+        csvFilePath = 'mobile_products.csv'
+        tempFilePath = 'mobile_products_temp.csv'
+        productFound = False
+        oldPrice = None
+
+        try:
+            # Read the original file and write to temporary file with changes
+            with open(csvFilePath, 'r', newline='', encoding='utf-8') as input_file, \
+                    open(tempFilePath, 'w', newline='', encoding='utf-8') as output_file:
+
+                reader = csv.DictReader(input_file)
+                fieldnames = reader.fieldnames
+                writer = csv.DictWriter(output_file, fieldnames=fieldnames)
+                writer.writeheader()
+
+                for row in reader:
+                    if row['category_title'] == category_name and row['topup_title'] == topup_name:
+                        oldPrice = row['topup_price_in_pence']
+                        row['topup_price_in_pence'] = str(newPricePence)
+                        productFound = True
+                        print(f"Found product: {topup_name}")
+                        print(f"Old price: {oldPrice} pence")
+                        print(f"New price: {newPricePence} pence")
+
+                    writer.writerow(row)
+
+            # Replace original file with updated file
+            if productFound:
+                os.replace(tempFilePath, csvFilePath)
+                print(f"Price successfully updated for '{topup_name}' in category '{category_name}'")
+            else:
+                # Remove temp file if no changes were made
+                os.remove(tempFilePath)
+                print(f"Product '{topup_name}' not found in category '{category_name}'")
+
+        except FileNotFoundError:
+            print(f"Error: Could not find {csvFilePath}")
+            return False
+        except Exception as e:
+            print(f"Error updating price: {e}")
+            # Clean up temp file if it exists
+            if os.path.exists(tempFilePath):
+                os.remove(tempFilePath)
+            return False
+
+        return productFound
+
+    def changePrice(self):
+        if self.adminRestriction:
+            print("Access denied. Please log in first.")
+            return
+
+        print("=== Change Product Price ===")
+
+        try:
+            category = input("Enter the category name: ").strip()
+            topup = input("Enter the topup name: ").strip()
+
+            while True:
+                try:
+                    newPrice = int(input("Enter new price in pence: "))
+                    if newPrice < 0:
+                        print("Price cannot be negative. Please try again.")
+                        continue
+                    break
+                except ValueError:
+                    print("Invalid input. Please enter a number.")
+
+            self.changeProductPrice(category, topup, newPrice)
+            print("Price change completed successfully!")
+
+        except KeyboardInterrupt:
+            print("\nOperation cancelled by user.")
+        except Exception as e:
+            print(f"An error occurred: {e}")
+
+
+def adminInterface():
+    admin = Admin(123456, 654321)
+    while True:
+        try:
+            adminLogInInput1 = int(input('Welcome to Admin Log In\nPlease enter your Username\n>>>'))
+            adminLogInInput2 = int(input('Now please enter your Password\n>>>'))
+
+            admin.adminLogIn(adminLogInInput1, adminLogInInput2)
+
+            if not admin.adminRestriction:
+                while True:
+                    try:
+                        admin_choice = int(input('\nAdmin Menu:\n1. Change Price\n0. Logout\n>>> '))
+
+                        if admin_choice == 1:
+                            admin.changePrice()
+                        elif admin_choice == 0:
+                            admin.adminRestriction = True
+                            print("Logged out successfully.")
+                            break
+                        else:
+                            print("Invalid choice. Please enter 0 or 1.")
+
+                    except ValueError:
+                        print("Invalid input. Please enter a number.")
+                break
+
+        except ValueError:
+            print('Invalid input. Please enter a number.\n')
+
