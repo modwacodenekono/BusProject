@@ -76,35 +76,63 @@ class Admin:
 
         return productFound
 
+    def changePrice(self):
+        if self.adminRestriction:
+            print("Access denied. Please log in first.")
+            return
 
+        print("=== Change Product Price ===")
 
+        try:
+            category = input("Enter the category name: ").strip()
+            topup = input("Enter the topup name: ").strip()
 
-admin = Admin(123456, 654321)
-while True:
-    try:
-        adminLogInInput1 = int(input('Welcome to Admin Log In\nPlease enter your Username\n>>>'))
-        adminLogInInput2 = int(input('Now please enter your Password\n>>>'))
-
-        admin.adminLogIn(adminLogInInput1, adminLogInInput2)
-
-        if not admin.adminRestriction:
             while True:
                 try:
-                    admin_choice = int(input('\nAdmin Menu:\n1. Change Price\n0. Logout\n>>> '))
-
-                    if admin_choice == 1:
-                        admin.changePrice()
-                    elif admin_choice == 0:
-                        admin.adminRestriction = True
-                        print("Logged out successfully.")
-                        break
-                    else:
-                        print("Invalid choice. Please enter 0 or 1.")
-
+                    newPrice = int(input("Enter new price in pence: "))
+                    if newPrice < 0:
+                        print("Price cannot be negative. Please try again.")
+                        continue
+                    break
                 except ValueError:
                     print("Invalid input. Please enter a number.")
-            break
 
-    except ValueError:
-        print('Invalid input. Please enter a number.\n')
+            self.changeProductPrice(category, topup, newPrice)
+            print("Price change completed successfully!")
+
+        except KeyboardInterrupt:
+            print("\nOperation cancelled by user.")
+        except Exception as e:
+            print(f"An error occurred: {e}")
+
+
+def adminInterface():
+    admin = Admin(123456, 654321)
+    while True:
+        try:
+            adminLogInInput1 = int(input('Welcome to Admin Log In\nPlease enter your Username\n>>>'))
+            adminLogInInput2 = int(input('Now please enter your Password\n>>>'))
+
+            admin.adminLogIn(adminLogInInput1, adminLogInInput2)
+
+            if not admin.adminRestriction:
+                while True:
+                    try:
+                        admin_choice = int(input('\nAdmin Menu:\n1. Change Price\n0. Logout\n>>> '))
+
+                        if admin_choice == 1:
+                            admin.changePrice()
+                        elif admin_choice == 0:
+                            admin.adminRestriction = True
+                            print("Logged out successfully.")
+                            break
+                        else:
+                            print("Invalid choice. Please enter 0 or 1.")
+
+                    except ValueError:
+                        print("Invalid input. Please enter a number.")
+                break
+
+        except ValueError:
+            print('Invalid input. Please enter a number.\n')
 
