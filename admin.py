@@ -55,6 +55,27 @@ class Admin:
 
                     writer.writerow(row)
 
+            # Replace original file with updated file
+            if productFound:
+                os.replace(tempFilePath, csvFilePath)
+                print(f"Price successfully updated for '{topup_name}' in category '{category_name}'")
+            else:
+                # Remove temp file if no changes were made
+                os.remove(tempFilePath)
+                print(f"Product '{topup_name}' not found in category '{category_name}'")
+
+        except FileNotFoundError:
+            print(f"Error: Could not find {csvFilePath}")
+            return False
+        except Exception as e:
+            print(f"Error updating price: {e}")
+            # Clean up temp file if it exists
+            if os.path.exists(tempFilePath):
+                os.remove(tempFilePath)
+            return False
+
+        return productFound
+
 
 
 
