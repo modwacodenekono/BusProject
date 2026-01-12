@@ -46,18 +46,20 @@ def chooseCategory():
         print(str(i) + '.', str(data))
         i += 1
 
-    # error handling!
     # Validating user input and calling the next function
     while terminateLoop:
-        categoryChoiceInput = int(input('To find out more or choose a category please enter the number.\n>>>')) - 1
-        if 0 > categoryChoiceInput or categoryChoiceInput > len(user.getCategoryList()) - 1:
-            print('Invalid choice')
+        try:
+            categoryChoiceInput = int(input('To find out more or choose a category please enter the number.\n>>>')) - 1
+            if 0 > categoryChoiceInput or categoryChoiceInput > len(user.getCategoryList()) - 1:
+                print('Invalid choice\n')
 
-        else:
-            terminateLoop = False
-            print('You have chosen ' + user.getCategoryList()[categoryChoiceInput])
-            confirmChoice('category', categoryChoiceInput)
+            else:
+                terminateLoop = False
+                print('You have chosen ' + user.getCategoryList()[categoryChoiceInput])
+                confirmChoice('category', categoryChoiceInput)
 
+        except ValueError:
+            print('Invalid input\n')
 
 
 # This function allows confirming choice exploring more information or going back. It also works for two different parts of the program, which saves space
@@ -67,37 +69,44 @@ def confirmChoice(choice, userInput, topUpList = None):
     if choice == 'category':
 
         while terminateLoop:
-            # error handling!
-            confirmChoiceInput = int(input('1. To find out more or\n2. To choose this category or\n0. To move back\n>>>'))
+            try:
+                confirmChoiceInput = int(input('1. To find out more or\n2. To choose this category or\n0. To move back\n>>>'))
 
-            match confirmChoiceInput:
-                case 1:
-                    print(user.getCategoryDescriptionList()[userInput])
+                match confirmChoiceInput:
+                    case 1:
+                        print(user.getCategoryDescriptionList()[userInput])
 
-                    confirmChoiceInput2 = int(input('Do you still want to buy this ticket?\n1. Yes\n0. Go back\n>>>'))
+                        try:
+                            confirmChoiceInput2 = int(input('Do you still want to buy this ticket?\n1. Yes\n0. Go back\n>>>'))
 
-                    terminateLoop = False
+                            terminateLoop = False
 
-                    # Another check if after finding out more information, the user still wants to buy a ticket
-                    if confirmChoiceInput2 == 1:
+                            # Another check if after finding out more information, the user still wants to buy a ticket
+                            if confirmChoiceInput2 == 1:
+                                chooseTopUp()
+                            elif confirmChoiceInput2 == 0:
+                                chooseCategory()
+                            else:
+                                print('Invalid choice\n')
+
+                        except ValueError:
+                            print('Invalid input\n')
+
+                    case 2:
                         chooseTopUp()
-                    elif confirmChoiceInput2 == 0:
+                        terminateLoop = False
+                    case 0:
                         chooseCategory()
-                    else:
-                        print('Invalid choice')
+                        terminateLoop = False
+                    case _:
+                        print('Invalid choice\n')
 
-                case 2:
-                    chooseTopUp()
-                    terminateLoop = False
-                case 0:
-                    chooseCategory()
-                    terminateLoop = False
-                case _:
-                    print('Invalid choice')
+            except ValueError:
+                print('Invalid input\n')
 
     else:
 
-        # Creating full message considering multiple factors like use of plural and correct appearance of price
+        # Creating a full message considering multiple factors like use of plural and correct appearance of price
         if topUpList[userInput][3] == '':
             topUpOutputPhrase = 'from 2025-08-31T23:00:00+00:00 to 2026-07-31T22:59:00+00:00'
         else:
@@ -125,16 +134,20 @@ def confirmChoice(choice, userInput, topUpList = None):
                 case 1:
                     print(topUpList[userInput][1], 'That costs £' + formatNumber(float(topUpList[userInput][2]) / 100), 'and lasts', topUpOutputPhrase + '. This ticket is designed for', topUpList[userInput][6] + topUpOutputPhrase2)
 
-                    confirmChoiceInput2 = int(input('Do you still want to buy this ticket?\n1. Yes\n0. Go back\n>>>'))
+                    try:
+                        confirmChoiceInput2 = int(input('Do you still want to buy this ticket?\n1. Yes\n0. Go back\n>>>'))
 
-                    terminateLoop = False
+                        terminateLoop = False
 
-                    if confirmChoiceInput2 == 1:
-                        payment(topUpList[userInput])
-                    elif confirmChoiceInput2 == 0:
-                        chooseTopUp()
-                    else:
-                        print('Invalid choice')
+                        if confirmChoiceInput2 == 1:
+                            payment(topUpList[userInput])
+                        elif confirmChoiceInput2 == 0:
+                            chooseTopUp()
+                        else:
+                            print('Invalid choice')
+
+                    except ValueError:
+                        print('Invalid input\n')
 
                 case 2:
                     payment(topUpList[userInput])
@@ -168,14 +181,18 @@ def chooseTopUp():
         i += 1
 
     while terminateLoop:
-        topUpChoiceInput = int(input('To find out more or buy a ticket please enter the number.\n>>>')) - 1
-        if 0 > topUpChoiceInput or topUpChoiceInput > len(topUpList) - 1:
-            print('Invalid choice')
+        try:
+            topUpChoiceInput = int(input('To find out more or buy a ticket please enter the number.\n>>>')) - 1
+            if 0 > topUpChoiceInput or topUpChoiceInput > len(topUpList) - 1:
+                print('Invalid choice\n')
 
-        else:
-            terminateLoop = False
-            print('You have chosen ' + topUpList[topUpChoiceInput][0])
-            confirmChoice('topUp', topUpChoiceInput, topUpList)
+            else:
+                terminateLoop = False
+                print('You have chosen ' + topUpList[topUpChoiceInput][0])
+                confirmChoice('topUp', topUpChoiceInput, topUpList)
+
+        except ValueError:
+            print('Invalid input\n')
 
 # If the price is an integer, it is displayed as such, otherwise it is displayed with two decimal places
 def formatNumber(value):
@@ -230,18 +247,22 @@ user.loadData()
 finishLoop = True
 
 while finishLoop:
-    starterMenuInput = input('1. Press 1 to buy tickets or\n2. Press 2 to log in as an admin\n0. Press 0 to exit\n>>> ')
+    try:
+        starterMenuInput = int(input('1. Press 1 to buy tickets or\n2. Press 2 to log in as an admin\n0. Press 0 to exit\n>>> '))
 
-    match starterMenuInput:
-        case 1:
-            finishLoop = False
-            chooseCategory()
-            continue
-        case 2:
-            print('You have chosen to log in as an admin\n')
-            # admin.admin.logIn() ...
-            finishLoop = False
-        case 0:
-            exit()
-        case _:
-            print('Invalid choice')
+        match starterMenuInput:
+            case 1:
+                finishLoop = False
+                chooseCategory()
+                continue
+            case 2:
+                print('You have chosen to log in as an admin\n')
+                # admin.admin.logIn() ...
+                finishLoop = False
+            case 0:
+                exit()
+            case _:
+                print('Invalid choice\n')
+
+    except ValueError:
+        print('Invalid input\n')
